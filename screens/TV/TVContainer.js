@@ -14,16 +14,20 @@ class TvContainer extends Component {
 
     async componentDidMount() {
         try {
-            const topRated = await movies.getUpcoming();
-            const popular = await movies.getPopular();
-            const airingToday = await movies.getNowPlaying();
 
-            this.setState({ topRated, popular, airingToday });
-
+            ({ data: { results: topRated }} = await tv.getTopRated());
+            ({ data: { results: popular }} = await tv.getPopular());
+            ({ data: { results: airingToday }} = await tv.getAiringToday());
         } catch {
-            this.setState({ error: "Can't get TV Show" });
+            error = "Can't get TV Show";
         } finally {
-            this.setState({ loading: false });
+            this.setState({
+                loading: false,
+                error,
+                topRated,
+                popular,
+                airingToday
+            });
         }
 
 
@@ -32,7 +36,7 @@ class TvContainer extends Component {
     }
 
     render() {
-        const { loading, error, popular } = this.state;
+        const { loading, error, topRated, popular, airingToday } = this.state;
         return <TVPresenter loading={loading} />;
     }
 }

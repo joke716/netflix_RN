@@ -13,22 +13,25 @@ class MoviesContainer extends Component {
 
     async componentDidMount() {
         try {
-            const upcoming = await movies.getUpcoming();
-            const popular = await movies.getPopular();
-            const nowPlaying = await movies.getNowPlaying();
-
-            this.setState({ upcoming, popular, nowPlaying });
-
+            ({ data: { results: upcoming }} = await movies.getUpcoming());
+            ({ data: { results: popular }} = await movies.getPopular());
+            ({ data: { results: nowPlaying }} = await movies.getNowPlaying());
         } catch {
-            this.setState({ error: "Can't get Movies" });
+            error = "Can't get Movies";
         } finally {
-            this.setState({ loading: false });
+            this.setState({
+                loading: false,
+                error,
+                upcoming,
+                popular,
+                nowPlaying
+            });
         }
     }
 
 
     render() {
-        const { loading } = this.state;
+        const { loading, error, upcoming, popular, nowPlaying } = this.state;
         return <MoviePresenter loading={loading} />;
     }
 }
