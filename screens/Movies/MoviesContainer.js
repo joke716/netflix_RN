@@ -32,7 +32,15 @@ class MoviesContainer extends Component {
 
     render() {
         const { loading, error, upcoming, popular, nowPlaying } = this.state;
-        return <MoviePresenter loading={loading} />;
+        return (
+            <MoviePresenter
+                upcoming={upcoming}
+                nowPlaying={nowPlaying}
+                popular={popular}
+                loading={loading}
+                error={error}
+            />
+        );
     }
 }
 
