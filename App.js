@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { AppLoading } from "expo";
 import * as Font from 'expo-font'
 import { Ionicons } from "@expo/vector-icons";
-import TabNavigation from './navigation/TabNavigation';
+import MainBavigation from './navigation/MainNavigation';
 
 export default class App extends Component {
 
@@ -24,7 +24,7 @@ export default class App extends Component {
   render() {
     const { loaded } = this.state;
     if (loaded) {
-      return <TabNavigation />;
+      return <MainBavigation />;
     } else {
       return (
           <AppLoading
