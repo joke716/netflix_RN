@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import MoviePresenter from "./MoviesPresenter";
+import MoviesPresenter from "./MoviesPresenter";
 import { movies } from "../../src/api";
 
 class MoviesContainer extends Component {
@@ -16,15 +16,13 @@ class MoviesContainer extends Component {
             ({ data: { results: upcoming }} = await movies.getUpcoming());
             ({ data: { results: popular }} = await movies.getPopular());
             ({ data: { results: nowPlaying }} = await movies.getNowPlaying());
+            this.setState({ upcoming, popular, nowPlaying })
         } catch {
-            error = "Can't get Movies";
+            this.setState({  error : "Can't get Movies" });
+
         } finally {
             this.setState({
-                loading: false,
-                error,
-                upcoming,
-                popular,
-                nowPlaying
+                loading: false
             });
         }
     }
@@ -33,7 +31,7 @@ class MoviesContainer extends Component {
     render() {
         const { loading, error, upcoming, popular, nowPlaying } = this.state;
         return (
-            <MoviePresenter
+            <MoviesPresenter
                 upcoming={upcoming}
                 nowPlaying={nowPlaying}
                 popular={popular}

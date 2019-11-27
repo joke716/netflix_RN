@@ -9,7 +9,7 @@ class TvContainer extends Component {
         error: null,
         popular: null,
         topRated: null,
-        airingToday: null
+        airingThisWeek: null
     };
 
     async componentDidMount() {
@@ -17,22 +17,19 @@ class TvContainer extends Component {
 
             ({ data: { results: topRated }} = await tv.getTopRated());
             ({ data: { results: popular }} = await tv.getPopular());
-            ({ data: { results: airingToday }} = await tv.getAiringToday());
-        } catch {
-            error = "Can't get TV Show";
-        } finally {
+            ({ data: { results: airingToday }} = await tv.getAiringThisWeek());
+
             this.setState({
-                loading: false,
-                error,
                 topRated,
                 popular,
-                airingToday
+                airingThisWeek
             });
+
+        } catch {
+            this.setState({ error : "Can't get TV Show" });
+        } finally {
+            this.setState({ loading: false });
         }
-
-
-
-
     }
 
     render() {
