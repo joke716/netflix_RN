@@ -14,7 +14,15 @@ class SearchContainer extends Component {
         this.setState({
             searchTerm : text
         })
-    }
+    };
+
+    onSubmitEditing = () => {
+        const { searchTerm } = this.state;
+        if (searchTerm !== "") {
+            alert("Searching");
+            return;
+        }
+    };
 
 
 
@@ -26,6 +34,7 @@ class SearchContainer extends Component {
                 tvResults={tvResults}
                 searchTerm={searchTerm}
                 loading={loading}
+                onSubmitEditing={this.onSubmitEditing}
                 handleSearchUpdate={this.handleSearchUpdate}
             />
         );
