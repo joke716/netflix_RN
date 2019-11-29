@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import SearchPresenter from "./SearchPresenter";
+import { movies, tv } from "../../src/api";
 
 
 class SearchContainer extends Component {
@@ -7,7 +8,8 @@ class SearchContainer extends Component {
         loading: false,
         moviesResults: null,
         tvResults: null,
-        searchTerm: ""
+        searchTerm: "",
+        error: null
     };
 
     handleSearchUpdate = text => {
@@ -16,12 +18,20 @@ class SearchContainer extends Component {
         })
     };
 
-    onSubmitEditing = () => {
+    onSubmitEditing = async () => {
         const { searchTerm } = this.state;
-        if (searchTerm !== "") {
-            alert("Searching");
-            return;
+        let moviesResults, tvResults, error;
+        this.setState({ loading : true });
+        try {
+            ({ data: { results: moviesResults }} = await movies.searchMovies(searchTerm));
+            ({ data: { results: tvResults }} = await tv.searchTv(searchTerm));
+            this.setState({ tvResults, moviesResults });
+        } catch {
+            this.setState({ error: "Can't search" })
+        } finally {
+            this.setState({ loading : false })
         }
+        return;
     };
 
 
