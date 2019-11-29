@@ -5,7 +5,7 @@ import { TINT_COLOR, GREY_COLOR } from "../constants/Colors";
 
 const Vote = styled.Text`
   color: ${props => (props.inSlide ? TINT_COLOR : GREY_COLOR)};
-  font-size: ${props => (props.inSlide ? "10px" : "8px")};
+  font-size: ${props => (props.inSlide ? "12px" : "10px")};
   font-weight: 600;
 `;
 

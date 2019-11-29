@@ -6,22 +6,22 @@ import {movies, tv} from "../../src/api";
 class TvContainer extends Component {
     state = {
         loading: true,
-        error: null,
         popular: null,
-        topRated: null,
-        airingThisWeek: null
+        airingThisWeek: null,
+        airingToday: null,
+        error: null
     };
 
     async componentDidMount() {
         try {
 
-            ({ data: { results: topRated }} = await tv.getTopRated());
             ({ data: { results: popular }} = await tv.getPopular());
-            ({ data: { results: airingToday }} = await tv.getAiringThisWeek());
+            ({ data: { results: airingToday }} = await tv.getAiringToday());
+            ({ data: { results: airingThisWeek }} = await tv.getAiringThisWeek());
 
             this.setState({
-                topRated,
                 popular,
+                airingToday,
                 airingThisWeek
             });
 
@@ -33,8 +33,16 @@ class TvContainer extends Component {
     }
 
     render() {
-        const { loading, error, topRated, popular, airingToday } = this.state;
-        return <TVPresenter loading={loading} />;
+        const { loading, airingThisWeek, popular, airingToday, error } = this.state;
+        return (
+            <TVPresenter
+                airingToday={airingToday}
+                popular={popular}
+                airingThisWeek={airingThisWeek}
+                loading={loading}
+                error={error}
+            />
+        );
     }
 }
 
